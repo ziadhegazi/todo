@@ -9,6 +9,7 @@ export const add_task = (item) => {
             id: ++ID,
             name: item.name,
             description: item.description,
+            check : item.check,
         }
 
     })

@@ -28,7 +28,8 @@ const AddTask = ({addtask}) => {
 
         const item = {
             name : text.name,
-            description : text.description
+            description : text.description,
+            check : false,
         }
 
         console.log("form submited, item", item)

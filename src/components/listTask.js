@@ -6,7 +6,7 @@ import Task from './Task';
 
 const ListTask = ({tasks, newTask}) => {
     const [local_tasks, setLocalTasks] = useState(tasks)
-
+    // const [finalList, setFinalList] = useState(local_tasks)
 
     const appendTask = () => {
         console.log("tasks", tasks)
@@ -15,50 +15,40 @@ const ListTask = ({tasks, newTask}) => {
             tasks.unshift(newTask)
             console.log("task :", newTask, "tasks:",tasks);
         }
-        // if (newTask.name && newTask.description) {
-        //     tasks.unshift(newTask)
-        //     console.log("task :", newTask, "tasks:",tasks);
-        // }
-        // tasks.unshift(newTask)
-        // console.log("task :", newTask, "tasks:",tasks);
     }
+
+    const handleCheckbox = (e) => {
+        let tempID = e.target.previousSibling.previousSibling.previousSibling.id;
+
+        local_tasks[tempID - 1].check = e.target.checked;
+        console.log("e.check", e.target.checked)
+        console.log("check", local_tasks[tempID - 1])
+    }
+    
+    let task_list = local_tasks.map(e => <Task id={e.id} name={e.name} description={e.description} state={handleCheckbox} check = {e.check} />);
 
     const updateList = () => {
         appendTask()
-        task_list = local_tasks.map((e) => <Task id={e.id} name={e.name} description={e.description} check="false" />);
         console.log("task list", task_list)
-
     }
     
     useEffect(updateList,[newTask, tasks]);
-    // updateList()
-    // let updated_list = updateList();
     
-    let task_list = local_tasks.map(e => <Task id={e.id} name={e.name} description={e.description} />);
 
     // filter
     const filter = () => {
         const filter = document.querySelector("#filter").value;
         console.log("filter", filter)
         if (filter === "checked") {
-            // task_list = tasks.filter(e => e.lastElementChild.lastElementChild.hasAttribute("checked") )
-            console.log("filter", tasks.filter(e => e))
-            let temp = [];
-            for (let todo of task_list) {
-                // if (todo.hasAttribute("checked")) {
-                //     temp.push(todo);
-                // }
-                // console.log("checked", todo.hasAttribute("checked"))
-                console.log("todo", todo.props)
-                console.log("temp", temp)
-            }
+            task_list = local_tasks.filter(e => e.check === true);
+            console.log("filter list", task_list);
         }
         else if (filter === "unchecked") {
-            task_list = tasks.filter(e => !e.hasAttribute("checked") )
-            console.log("filter", filter)
+            task_list = local_tasks.filter(e => e.check === false);
+            console.log("filter list", task_list);
         }
         else {
-            return;
+            task_list = local_tasks.map((e) => <Task id={e.id} name={e.name} description={e.description} state={handleCheckbox} check = {e.check} />);
         }
 
     }
@@ -87,7 +77,7 @@ const ListTask = ({tasks, newTask}) => {
 
 const mapStateToProps = state => ({
     tasks : state.items,
-    newTask: state.item
+    newTask: state.item,
 })
 
 export default connect(mapStateToProps)(ListTask);
