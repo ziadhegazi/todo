@@ -1,12 +1,16 @@
 import React from 'react'
+import "./task.css"
 
-const Task = ({id, name, description}) => {
+const Task = ({id, name, description, check}) => {
     return (
-        <div>
-            id:{id}
-            name:{name}
-            description:{description}
-        </div>
+        <li>
+            <div className="task_container">
+                <h4 className="ID" id={id}>{id}</h4>
+                <div className="name">{name}</div>
+                <div className="description">{description}</div>
+                <input type="checkbox" checked = {check}/>
+            </div>
+        </li>
     )
 }
 

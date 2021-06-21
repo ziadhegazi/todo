@@ -10,8 +10,10 @@ const App = () => {
   return (
     <Provider store={store}>
       <div className="App">
-        <AddTask></AddTask>
-        <ListTask></ListTask>
+        <div className="main_container">
+          <AddTask></AddTask>
+          <ListTask></ListTask>
+        </div>
       </div>
     </Provider>
   );
